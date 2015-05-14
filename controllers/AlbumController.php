@@ -5,14 +5,14 @@ namespace abcms\galleryModule\controllers;
 use Yii;
 use abcms\galleryModule\models\GalleryAlbum;
 use abcms\galleryModule\models\GalleryAlbumSearch;
-use abcms\base\AdminBaseController;
+use abcms\base\CrudController;
 use yii\web\NotFoundHttpException;
 use abcms\galleryModule\models\GalleryImageSearch;
 
 /**
  * AlbumController implements the CRUD actions for GalleryAlbum model.
  */
-class AlbumController extends AdminBaseController
+class AlbumController extends CrudController
 {
 
     /**

@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'ordering',
             [
-                'class' => abcms\grid\ActivateColumn::className(),
+                'class' => abcms\library\grid\ActivateColumn::className(),
                 'controller' => 'image',
             ],
             [

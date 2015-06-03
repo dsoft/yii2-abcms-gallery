@@ -17,7 +17,7 @@ use yii\imagine\Image;
  * @property integer $deleted
  * @property integer $ordering
  */
-class GalleryAlbum extends \abcms\base\BackendActiveRecord
+class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
 {
 
     public $enableTime = false;

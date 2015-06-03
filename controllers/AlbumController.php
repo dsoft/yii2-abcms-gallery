@@ -5,7 +5,7 @@ namespace abcms\galleryModule\controllers;
 use Yii;
 use abcms\galleryModule\models\GalleryAlbum;
 use abcms\galleryModule\models\GalleryAlbumSearch;
-use abcms\base\CrudController;
+use abcms\library\base\CrudController;
 use yii\web\NotFoundHttpException;
 use abcms\galleryModule\models\GalleryImageSearch;
 

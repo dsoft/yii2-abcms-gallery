@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         },
             ],
             'ordering',
-            ['class' => 'abcms\grid\ActivateColumn'],
+            ['class' => 'abcms\library\grid\ActivateColumn'],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);

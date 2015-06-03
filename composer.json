@@ -1,5 +1,5 @@
 {
-    "name": "abcms/yii2-gallery-module",
+    "name": "abcms/yii2-gallery",
     "type": "yii2-extension",
     "description": "",
     "version": "dev-master",
@@ -14,7 +14,7 @@
         "yiisoft/yii2-imagine": "*"
     },
     "autoload": {
-        "psr-4": {"abcms\\galleryModule\\": ""}
+        "psr-4": {"abcms\\gallery\\": ""}
     },
     "bin": [
     ],

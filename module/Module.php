@@ -1,10 +1,10 @@
 <?php
 
-namespace abcms\galleryModule;
+namespace abcms\gallery\module;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'abcms\galleryModule\controllers';
+    public $controllerNamespace = 'abcms\gallery\module\controllers';
 
     public function init()
     {

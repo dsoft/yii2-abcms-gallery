@@ -1,9 +1,9 @@
 <?php
 
-namespace abcms\galleryModule\controllers;
+namespace abcms\gallery\module\controllers;
 
 use Yii;
-use abcms\galleryModule\models\GalleryImage;
+use abcms\gallery\module\models\GalleryImage;
 use abcms\library\base\CrudController;
 use yii\web\NotFoundHttpException;
 

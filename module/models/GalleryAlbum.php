@@ -1,6 +1,6 @@
 <?php
 
-namespace abcms\galleryModule\models;
+namespace abcms\gallery\module\models;
 
 use Yii;
 use yii\web\UploadedFile;

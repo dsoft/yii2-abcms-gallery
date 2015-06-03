@@ -22,17 +22,6 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
 
     public $enableTime = false;
     public $images = null;
-    public static $categories = [
-        1 => [
-            'name' => 'Event',
-            'sizes' => [
-                'thumbs' => [
-                    'width' => 472,
-                    'height' => 278,
-                ],
-            ],
-        ],
-    ];
 
     /**
      * @inheritdoc
@@ -73,7 +62,7 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     public static function returnCategoriesList()
     {
         $array = [];
-        $categories = self::$categories;
+        $categories = self::categories();
         foreach($categories as $key => $category) {
             if(isset($category['name'])) {
                 $array[$key] = $category['name'];
@@ -85,8 +74,9 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     public function returnCategoryName()
     {
         $return = null;
-        if(self::$categories[$this->categoryId]['name']) {
-            $return = self::$categories[$this->categoryId]['name'];
+        $categories = self::categories();
+        if(isset($categories[$this->categoryId]['name'])) {
+            $return = $categories[$this->categoryId]['name'];
         }
         return $return;
     }
@@ -128,8 +118,9 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     public function returnImageName()
     {
         $return = 'image';
-        if(isset(self::$categories[$this->categoryId]['name'])) {
-            $return = strtolower(self::$categories[$this->categoryId]['name']);
+        $categories = self::categories();
+        if(isset($categories[$this->categoryId]['name'])) {
+            $return = strtolower($categories[$this->categoryId]['name']);
         }
         return $return;
     }
@@ -137,16 +128,18 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     public function returnFolderName()
     {
         $return = 'image';
-        if(isset(self::$categories[$this->categoryId]['name'])) {
-            $return = strtolower(self::$categories[$this->categoryId]['name']);
+        $categories = self::categories();
+        if(isset($categories[$this->categoryId]['name'])) {
+            $return = strtolower($categories[$this->categoryId]['name']);
         }
         return $return;
     }
 
     protected function saveSizes($mainFolder, $imageName)
     {
-        if(isset(self::$categories[$this->categoryId]['sizes'])) {
-            $sizes = (array) self::$categories[$this->categoryId]['sizes'];
+        $categories = self::categories();
+        if(isset($categories[$this->categoryId]['sizes'])) {
+            $sizes = (array) $categories[$this->categoryId]['sizes'];
             foreach($sizes as $name => $size) {
                 if(isset($size['width'], $size['height'])) {
                     $folderName = $mainFolder.$name.'/';
@@ -168,6 +161,29 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     
     public function getActiveImages(){
         return $this->hasMany(GalleryImage::className(), ['albumId' => 'id'])->active();
+    }
+    
+    /**
+     * Return the list of categories with their sizes
+     * It should be set in the application params: ['gallery']['categories']
+     * Example:
+     * 'gallery' => [
+     *   'categories' => [
+     *       1 => [
+     *           'name' => 'Products',
+     *           'sizes' => [
+     *               'thumbs' => [
+     *                   'width' => 440,
+     *                   'height' => 440,
+     *               ],
+     *           ],
+     *      ],
+     *   ],
+     * ],
+     * @return array
+     */
+    public static function categories(){
+        return isset(Yii::$app->params['gallery']['categories']) ? Yii::$app->params['gallery']['categories'] : [];
     }
 
 }

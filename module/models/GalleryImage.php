@@ -16,7 +16,7 @@ use Yii;
  */
 class GalleryImage extends \abcms\library\base\BackendActiveRecord
 {
-    public $enableTime = false;
+    public static $enableTime = false;
     
     /**
      * @inheritdoc

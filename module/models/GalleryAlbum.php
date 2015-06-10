@@ -20,7 +20,7 @@ use yii\imagine\Image;
 class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
 {
 
-    public $enableTime = false;
+    public static $enableTime = false;
     public $images = null;
 
     /**

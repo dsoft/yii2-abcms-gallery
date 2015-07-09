@@ -44,6 +44,18 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
         ];
     }
 
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => \abcms\multilanguage\ModelBehavior::className(),
+                'attributes' => [
+                    'title',
+                ],
+            ],
+        ]);
+    }
+
     /**
      * @inheritdoc
      */
@@ -158,11 +170,12 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     {
         return $this->hasMany(GalleryImage::className(), ['albumId' => 'id']);
     }
-    
-    public function getActiveImages(){
+
+    public function getActiveImages()
+    {
         return $this->hasMany(GalleryImage::className(), ['albumId' => 'id'])->active();
     }
-    
+
     /**
      * Return the list of categories with their sizes
      * It should be set in the application params: ['gallery']['categories']
@@ -182,7 +195,8 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
      * ],
      * @return array
      */
-    public static function categories(){
+    public static function categories()
+    {
         return isset(Yii::$app->params['gallery']['categories']) ? Yii::$app->params['gallery']['categories'] : [];
     }
 

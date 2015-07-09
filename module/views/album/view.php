@@ -43,6 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ])
     ?>
+    
+    <?= \abcms\multilanguage\widgets\TranslationView::widget([
+        'model' => $model,
+    ]) ?>
 
 
     <h2>Images</h2>

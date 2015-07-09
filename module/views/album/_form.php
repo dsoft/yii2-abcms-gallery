@@ -21,6 +21,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'active')->checkbox() ?>
 
     <?= $form->field($model, 'ordering')->textInput() ?>
+    
+    <?= \abcms\multilanguage\widgets\TranslationForm::widget(['model' => $model]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

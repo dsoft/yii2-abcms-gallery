@@ -5,7 +5,7 @@ namespace abcms\gallery\module\models;
 use Yii;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
-use yii\imagine\Image;
+use abcms\library\helpers\Image;
 
 /**
  * This is the model class for table "gallery_album".
@@ -71,6 +71,10 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
         ];
     }
 
+    /**
+     * Return the album categories array with the id as key and name as value, used in drop down lists
+     * @return array
+     */
     public static function returnCategoriesList()
     {
         $array = [];
@@ -83,6 +87,10 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
         return $array;
     }
 
+    /**
+     * Return the album category name
+     * @return string|null
+     */
     public function returnCategoryName()
     {
         $return = null;
@@ -93,6 +101,11 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
         return $return;
     }
 
+    /**
+     * Read uploaded images and save them to this album
+     * @param GalleryImage $imageModel if provided, image will replace its value in the db, no new GalleryImage models will be created
+     * @throws ErrorException if image folder can't be created
+     */
     public function saveImages($imageModel = null)
     {
         $owner = $this;
@@ -100,7 +113,7 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
         $files = UploadedFile::getInstances($owner, $attribute);
         if($files && is_array($files)) {
             foreach($files as $file) {
-                $fileName = $this->returnImageName();
+                $fileName = $this->returnImageNamePrefix();
                 $folderName = $this->returnFolderName();
                 $randomName = $fileName."_".time().mt_rand(10, 99).".".$file->extension;
                 $directory = Yii::getAlias('@webroot/uploads/albums/'.$folderName.'/');
@@ -116,7 +129,7 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
                         }
                         $model->image = $randomName;
                         if($model->save(false)) {
-                            $this->saveSizes($directory, $randomName);
+                            Image::saveSizes($directory, $randomName, $this->getImageSizes());
                         }
                     }
                 }
@@ -127,43 +140,32 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
         }
     }
 
-    public function returnImageName()
+    /**
+     * Return the image name prefix, taken from the category name
+     * @return string
+     */
+    public function returnImageNamePrefix()
     {
         $return = 'image';
-        $categories = self::categories();
-        if(isset($categories[$this->categoryId]['name'])) {
-            $return = strtolower($categories[$this->categoryId]['name']);
+        $categoryName = $this->returnCategoryName();
+        if($categoryName){
+            $return = strtolower($categoryName);
         }
         return $return;
     }
 
+    /**
+     * Return the images main folder name, taken from the ctegory name
+     * @return string
+     */
     public function returnFolderName()
     {
         $return = 'image';
-        $categories = self::categories();
-        if(isset($categories[$this->categoryId]['name'])) {
-            $return = strtolower($categories[$this->categoryId]['name']);
+        $categoryName = $this->returnCategoryName();
+        if($categoryName){
+            $return = strtolower($categoryName);
         }
         return $return;
-    }
-
-    protected function saveSizes($mainFolder, $imageName)
-    {
-        $categories = self::categories();
-        if(isset($categories[$this->categoryId]['sizes'])) {
-            $sizes = (array) $categories[$this->categoryId]['sizes'];
-            foreach($sizes as $name => $size) {
-                if(isset($size['width'], $size['height'])) {
-                    $folderName = $mainFolder.$name.'/';
-                    if(FileHelper::createDirectory($folderName)) {
-                        Image::thumbnail($mainFolder.$imageName, $size['width'], $size['height'])->save($folderName.$imageName);
-                    }
-                    else {
-                        throw new ErrorException('Unable to create directoy.');
-                    }
-                }
-            }
-        }
     }
 
     public function getImages()
@@ -198,6 +200,19 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     public static function categories()
     {
         return isset(Yii::$app->params['gallery']['categories']) ? Yii::$app->params['gallery']['categories'] : [];
+    }
+    
+    /**
+     * Get the image sizes of this album from the category configuration
+     * @return array
+     */
+    public function getImageSizes(){
+        $categories = self::categories();
+        $sizes = [];
+        if(isset($categories[$this->categoryId]['sizes'])) {
+            $sizes = $categories[$this->categoryId]['sizes'];
+        }
+        return $sizes;
     }
 
 }

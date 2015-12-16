@@ -10,7 +10,8 @@
     },
     "require": {
         "yiisoft/yii2": "*",
-        "yiisoft/yii2-imagine": "*"
+        "yiisoft/yii2-imagine": "*",
+        "abcms/yii2-library": ">=0.2.1"
     },
     "autoload": {
         "psr-4": {"abcms\\gallery\\": ""}

@@ -3,6 +3,9 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
+/**
+ *  ./yii migrate --migrationPath=@vendor/abcms/yii2-gallery/migrations
+ */
 class m151216_114228_create_gallery_album extends Migration
 {
 

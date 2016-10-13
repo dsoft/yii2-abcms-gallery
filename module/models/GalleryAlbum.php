@@ -20,7 +20,6 @@ use abcms\library\helpers\Image;
 class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
 {
 
-    public static $enableTime = false;
     public $images = null;
 
     /**
@@ -48,7 +47,7 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     {
         return array_merge(parent::behaviors(), [
             [
-                'class' => \abcms\multilanguage\ModelBehavior::className(),
+                'class' => \abcms\multilanguage\behaviors\ModelBehavior::className(),
                 'attributes' => [
                     'title',
                 ],

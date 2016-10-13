@@ -5,14 +5,14 @@ namespace abcms\gallery\module\controllers;
 use Yii;
 use abcms\gallery\module\models\GalleryAlbum;
 use abcms\gallery\module\models\GalleryAlbumSearch;
-use abcms\library\base\CrudController;
+use abcms\library\base\AdminController;
 use yii\web\NotFoundHttpException;
 use abcms\gallery\module\models\GalleryImageSearch;
 
 /**
  * AlbumController implements the CRUD actions for GalleryAlbum model.
  */
-class AlbumController extends CrudController
+class AlbumController extends AdminController
 {
 
     /**
@@ -25,8 +25,8 @@ class AlbumController extends CrudController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -38,15 +38,15 @@ class AlbumController extends CrudController
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        
+
         $searchModel = new GalleryImageSearch();
         $searchModel->albumId = $model->id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
+
         return $this->render('view', [
-            'model' => $model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'model' => $model,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -60,12 +60,13 @@ class AlbumController extends CrudController
         $model = new GalleryAlbum();
         $model->loadDefaultValues();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->saveImages();
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        }
+        else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -80,12 +81,13 @@ class AlbumController extends CrudController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->saveImages();
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        }
+        else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -104,6 +106,20 @@ class AlbumController extends CrudController
     }
 
     /**
+     * Activate/Deactivate an existing model.
+     * If action is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionActivate($id)
+    {
+        $model = $this->findModel($id);
+        $model->activate()->save(false);
+
+        return $this->redirect(['index']);
+    }
+
+    /**
      * Finds the GalleryAlbum model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -112,10 +128,12 @@ class AlbumController extends CrudController
      */
     protected function findModel($id)
     {
-        if (($model = GalleryAlbum::findOne($id)) !== null) {
+        if(($model = GalleryAlbum::findOne($id)) !== null) {
             return $model;
-        } else {
+        }
+        else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

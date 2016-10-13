@@ -4,13 +4,13 @@ namespace abcms\gallery\module\controllers;
 
 use Yii;
 use abcms\gallery\module\models\GalleryImage;
-use abcms\library\base\CrudController;
+use abcms\library\base\AdminController;
 use yii\web\NotFoundHttpException;
 
 /**
  * ImageController implements the CRUD actions for GalleryImage model.
  */
-class ImageController extends CrudController
+class ImageController extends AdminController
 {
 
     /**

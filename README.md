@@ -3,7 +3,7 @@ Simple image gallery admin module for yii2.
 
 ## Installation:
 ```bash
-composer require abcms/yii2-gallery:dev-master
+composer require abcms/yii2-gallery
 ```
 Run the database migration:
 ```bash

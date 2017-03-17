@@ -6,6 +6,7 @@ use Yii;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
 use abcms\library\helpers\Image;
+use yii\base\ErrorException;
 
 /**
  * This is the model class for table "gallery_album".
@@ -147,7 +148,7 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     {
         $return = 'image';
         $categoryName = $this->returnCategoryName();
-        if($categoryName){
+        if($categoryName) {
             $return = strtolower($categoryName);
         }
         return $return;
@@ -161,7 +162,7 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     {
         $return = 'image';
         $categoryName = $this->returnCategoryName();
-        if($categoryName){
+        if($categoryName) {
             $return = strtolower($categoryName);
         }
         return $return;
@@ -200,18 +201,65 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
     {
         return isset(Yii::$app->params['gallery']['categories']) ? Yii::$app->params['gallery']['categories'] : [];
     }
-    
+
     /**
      * Get the image sizes of this album from the category configuration
      * @return array
      */
-    public function getImageSizes(){
+    public function getImageSizes()
+    {
         $categories = self::categories();
         $sizes = [];
         if(isset($categories[$this->categoryId]['sizes'])) {
             $sizes = $categories[$this->categoryId]['sizes'];
         }
         return $sizes;
+    }
+
+    /**
+     * Create new album and save images or add images to existing album.
+     * @param integer $albumdId
+     * @param string $title Album title
+     * @param integer|string $category Album category ID or category name
+     * @throws ErrorException
+     */
+    public static function saveAlbum($albumdId = null, $title = null, $category = null)
+    {
+        if(is_string($category)) {
+            $categoryId = self::getCategoryIdByName($category);
+        }
+        else {
+            $categoryId = $category;
+        }
+        if(!$albumdId && (!$title || !$categoryId)) {
+            throw new ErrorException('Please provide albumdId to use existing album or title and categoryId to create a new one.');
+        }
+        if($albumdId) {
+            $model = self::findModel($albumdId);
+        }
+        else {
+            $model = new GalleryAlbum();
+            $model->title = $title;
+            $model->categoryId = $categoryId;
+            $model->save(false);
+        }
+        $model->saveImages();
+        return $model->id;
+    }
+    
+    /**
+     * Get category id from category name.
+     * @param string $categoryName category name
+     * @return integer|null
+     */
+    public static function getCategoryIdByName($categoryName){
+        $categories = self::categories();
+        foreach($categories as $key=>$category){
+            if($category['name'] === $categoryName){
+                return $key;
+            }
+        }
+        return null;
     }
 
 }

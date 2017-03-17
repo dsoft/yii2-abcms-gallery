@@ -19,14 +19,17 @@ class ImageController extends AdminController
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $returnUrl = null)
     {
         $model = $this->findModel($id);
         $album = $model->album;
 
         if($model->load(Yii::$app->request->post()) && $model->save()) {
             $album->saveImages($model);
-            return $this->redirect(['album/view', 'id' => $album->id]);
+            if(!$returnUrl){
+                $returnUrl = ['album/view', 'id' => $album->id];
+            }
+            return $this->redirect($returnUrl);
         }
         else {
             return $this->render('update', [
@@ -42,13 +45,16 @@ class ImageController extends AdminController
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $returnUrl = null)
     {
         $model = $this->findModel($id);
         $album = $model->album;
         $model->delete();
+        if(!$returnUrl){
+            $returnUrl = ['album/view', 'id' => $album->id];
+        }
 
-        return $this->redirect(['album/view', 'id' => $album->id]);
+        return $this->redirect($returnUrl);
     }
 
     /**

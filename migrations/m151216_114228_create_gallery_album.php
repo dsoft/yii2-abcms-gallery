@@ -1,4 +1,5 @@
 <?php
+namespace abcms\gallery\migrations;
 
 use yii\db\Schema;
 use yii\db\Migration;

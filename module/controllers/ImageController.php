@@ -63,13 +63,16 @@ class ImageController extends AdminController
      * @param integer $id
      * @return mixed
      */
-    public function actionActivate($id)
+    public function actionActivate($id, $returnUrl = null)
     {
         $model = $this->findModel($id);
         $album = $model->album;
         $model->activate()->save(false);
-
-        return $this->redirect(['album/view', 'id' => $album->id]);
+        if(!$returnUrl){
+            $returnUrl = ['album/view', 'id' => $album->id];
+        }
+        
+        return $this->redirect($returnUrl);
     }
 
     /**

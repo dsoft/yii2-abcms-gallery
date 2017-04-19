@@ -175,7 +175,7 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
 
     public function getActiveImages()
     {
-        return $this->hasMany(GalleryImage::className(), ['albumId' => 'id'])->active()->orderBy(['ordering' => SORT_ASC]);
+        return $this->hasMany(GalleryImage::className(), ['albumId' => 'id'])->active()->orderBy(['ordering' => SORT_ASC])->inverseOf('album');
     }
 
     /**

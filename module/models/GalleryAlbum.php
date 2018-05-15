@@ -7,6 +7,7 @@ use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
 use abcms\library\helpers\Image;
 use yii\base\ErrorException;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "gallery_album".
@@ -260,6 +261,17 @@ class GalleryAlbum extends \abcms\library\base\BackendActiveRecord
             }
         }
         return null;
+    }
+    
+    /**
+     * Return album list for a certain category, can be used in select box.
+     * @param integer $categoryId
+     * @return array
+     */
+    public static function getAlbumsList($categoryId)
+    {
+        $models = GalleryAlbum::find()->andWhere(['categoryId' => $categoryId, 'active' => 1])->orderBy(['title' => SORT_DESC])->all();
+        return ArrayHelper::map($models, 'id', 'title');
     }
 
 }

@@ -35,6 +35,18 @@ class GalleryImage extends \abcms\library\base\BackendActiveRecord
             [['image'], 'image', 'extensions' => 'png, jpg'],
         ];
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => \abcms\structure\behaviors\CustomFieldsBehavior::className(),
+            ],
+        ]);
+    }
 
     /**
      * @inheritdoc

@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $model app\models\GalleryImage */
 
 $this->title = 'Update Gallery Image: ' . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Gallery Images', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => 'Gallery Albums', 'url' => ['album/index']];
+$this->params['breadcrumbs'][] = ['label' => $album->title, 'url' => ['album/view', 'id' => $model->albumId]];
+$this->params['breadcrumbs'][] = 'Update Image';
 ?>
 <div class="gallery-image-update">
 

@@ -25,6 +25,7 @@ class ImageController extends AdminController
         $album = $model->album;
 
         if($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->saveCustomFields();
             $album->saveImages($model);
             if(!$returnUrl){
                 $returnUrl = ['album/view', 'id' => $album->id];

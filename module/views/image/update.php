@@ -17,6 +17,8 @@ $this->params['breadcrumbs'][] = 'Update Image';
     <?= $this->render('_form', [
         'model' => $model,
         'album'=>$album,
+        'structure' => $structure,
+        'structureTranslation' => $structureTranslation,
     ]) ?>
 
 </div>

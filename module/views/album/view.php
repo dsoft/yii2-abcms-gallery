@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'categoryId',
                 'value' => $model->returnCategoryName(),
             ],
-            'active',
+            'active:boolean',
             'ordering',
         ],
     ])

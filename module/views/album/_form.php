@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'ordering')->textInput() ?>
     
-    <?= \abcms\multilanguage\widgets\TranslationForm::widget(['model' => $model]) ?>
+    <?= \abcms\multilanguage\widgets\TranslationForm::widget(['model' => $model, 'form' => $form]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -6,6 +6,7 @@ use Yii;
 use abcms\gallery\module\models\GalleryImage;
 use abcms\library\base\AdminController;
 use yii\web\NotFoundHttpException;
+use abcms\structure\models\Structure;
 
 /**
  * ImageController implements the CRUD actions for GalleryImage model.
@@ -23,9 +24,12 @@ class ImageController extends AdminController
     {
         $model = $this->findModel($id);
         $album = $model->album;
+        
+        $structure = Structure::findOne(['modelId' => $model->returnModelId(), 'pk' => null]);
+        $structureTranslation = $structure ? $structure->getStructureTranslation($model) : null;
+        $model->enableAutoStructuresSaving($structure, $structureTranslation);
 
         if($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->saveCustomFields();
             $album->saveImages($model);
             if(!$returnUrl){
                 $returnUrl = ['album/view', 'id' => $album->id];
@@ -36,6 +40,8 @@ class ImageController extends AdminController
             return $this->render('update', [
                         'model' => $model,
                         'album' => $album,
+                        'structure' => $structure,
+                        'structureTranslation' => $structureTranslation,
             ]);
         }
     }

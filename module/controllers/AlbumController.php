@@ -59,6 +59,7 @@ class AlbumController extends AdminController
     {
         $model = new GalleryAlbum();
         $model->loadDefaultValues();
+        $model->automaticTranslationSaving = true;
 
         if($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->saveImages();
@@ -80,6 +81,7 @@ class AlbumController extends AdminController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->automaticTranslationSaving = true;
 
         if($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->saveImages();

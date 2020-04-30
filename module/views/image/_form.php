@@ -18,7 +18,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'ordering')->textInput() ?>
     
-    <?= \abcms\structure\widgets\Form::widget(['model' => $model, 'form' => $form, 'structure' => ['name' => null, 'modelId' => $model->returnModelId(), 'pk' => null]]) ?>
+    <?= $structure ? \abcms\structure\widgets\Form::widget(['model' => $model, 'form' => $form, 'structure' => $structure]) : null ?>
+    
+    <?= $structureTranslation ? \abcms\multilanguage\widgets\TranslationForm::widget(['model' => $structureTranslation, 'form' => $form]) : null ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

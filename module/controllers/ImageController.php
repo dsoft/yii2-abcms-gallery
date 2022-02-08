@@ -27,7 +27,9 @@ class ImageController extends AdminController
         
         $structure = Structure::findOne(['modelId' => $model->returnModelId(), 'pk' => null]);
         $structureTranslation = $structure ? $structure->getStructureTranslation($model) : null;
-        $model->enableAutoStructuresSaving($structure, $structureTranslation);
+        if($structure){
+            $model->enableAutoStructuresSaving($structure, $structureTranslation);
+        }
 
         if($model->load(Yii::$app->request->post()) && $model->save()) {
             $album->saveImages($model);
